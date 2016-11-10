@@ -15,7 +15,9 @@ module.exports = {
     $timeout,
     $state,
     $stateParams,
-    $mDataLoader
+    $mDataLoader,
+    $element,
+    $ionicModal
   ) {
     var dataLoadOptions;
     var list = {
@@ -29,11 +31,6 @@ module.exports = {
         if (isDefined(data)) {
           $scope.error = false;
           $scope.emptyData = false;
-          $scope.listStyle = data.listStyle;
-          $scope.itemStyle = data.itemStyle;
-
-          $scope.isCard = data.listStyle === "layout-2";
-          $scope.isList = data.listStyle === "layout-1";
 
           // If it was called from the "more" function, concatenate the items
           $scope.items = (more) ? $scope.items.concat(data.items) : data.items;
@@ -86,6 +83,7 @@ module.exports = {
        */
       showDetail: function(detailIndex) {
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
+          $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
             return item.id.toString() === $stateParams.detail;
           });
@@ -100,9 +98,11 @@ module.exports = {
             });
           } else {
             $scope.detail = $scope.items[itemIndex];
+            $scope.detail.index = itemIndex;
           }
         } else if (isDefined(detailIndex)) {
           $scope.detail = $scope.items[detailIndex];
+          $scope.detail.index = detailIndex;
         }
       },
       /**
@@ -174,19 +174,80 @@ module.exports = {
     };
 
     var listItem = {
+      next: function(detail){
+        if(detail.index !== -1 && detail.index < $scope.items.length - 1 ){
+          $scope.nextAnimation = true;
+          $scope.nextDetail = $scope.items[detail.index+1];
+          $scope.nextDetail.index = detail.index+1;
+          $timeout(function(){
+            $scope.detail = $scope.nextDetail;
+            $scope.nextAnimation = false;
+          },500);
+        }
+      },
+      prev: function(detail){
+        if(detail.index > 0){
+          $scope.prevAnimation = true;
+          $scope.prevDetail = $scope.items[detail.index-1];
+          $scope.prevDetail.index = detail.index-1;
+          $timeout(function(){
+            $scope.detail = $scope.prevDetail;
+            $scope.prevAnimation = false;
+          },500);
+        }
+      },
+      showPrev:function(detail){
+        return detail.index > 0;
+      },
+      showNext:function(detail){
+        return detail.index !== -1 && detail.index < $scope.items.length - 1;
+      },
+      getDetailImage:function(detail){
+        return {"background-image":"url('"+detail.image+"')"};
+      },
       goTo: function(detail) {
         $stateParams.detail = detail.id;
         $state.go('pages', $stateParams);
       }
     };
+    
+    var modal = {
+      created: function(){
+        $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
+           scope: $scope,
+           animation: 'slide-in-up'
+        }).then(function(modal) {
+           $scope.modal = modal;
+        });
+        $scope.openModal = function() {
+          $scope.modal.show();
+        };
+        $scope.closeModal = function() {
+          $scope.modal.hide();
+        };
+      }
+    }
 
     $scope.stripHtml = function(str) {
       return str.replace(/<[^>]+>/ig, " ");
     };
-
+    
+    function calculatedImageHeight(){
+      console.log($element);
+      var frame = parseInt(window.getComputedStyle(document.querySelector("ion-nav-view .pane:last-child .scroll")).height);
+      var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
+      return frame - descount + "px"
+    }
+  
     $scope.load = list.load;
     $scope.init = list.init;
     $scope.goTo = listItem.goTo;
+    $scope.getDetailImage = listItem.getDetailImage;
+    $scope.next = listItem.next;
+    $scope.prev = listItem.prev;
+    $scope.showNext = listItem.showNext;
+    $scope.showPrev = listItem.showPrev;
+    modal.created();
     list.init();
   }
 };
