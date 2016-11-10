@@ -1,36 +1,22 @@
 {
   "moblet": {
-    "label": "Pro Album",
-    "hint": "Create a list of rich text content",
-    "description": "Fill the fields below to create a list of content"
+    "label": "Album pro",
+    "hint": "Crie um album de fotos",
+    "description": "Preencha os campos abaixo para criar o seu album"
   },
-  "locations": {
-    "label": "Content list",
-    "hint": "Insert the content",
-    "list_button": "Add items"
+  "items": {
+    "label": "Album de fotos",
+    "hint": "Insira fotos no seu album",
+    "list_button": "Adicionar foto"
   },
   "title": {
-    "label": "Title",
-    "hint": "Content title",
-    "placeholder": "My title"
+    "label": "Título",
+    "hint": "Título da imagem",
+    "placeholder": "Meu título"
   },
   "description": {
-    "label": "Content",
-    "hint": "Fill the content with HTML using the text editor",
-    "placeholder": "My content"
-  },
-  "listStyle": {
-    "label": "List style",
-    "hint": "Choose the content list style",
-    "placeholder": "Choose a style",
-    "list_type_1": "Default list",
-    "list_type_2": "Card list"
-  },
-  "itemStyle": {
-    "label": "Item style",
-    "hint": "Choose the content style",
-    "placeholder": "Choose a style",
-    "item_type_1": "Default detail",
-    "item_type_2": "Card detail"
+    "label": "Descrição",
+    "hint": "Preencha com a descricão da sua imagem",
+    "placeholder": "Minha descricão"
   }
 }

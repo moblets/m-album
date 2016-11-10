@@ -1,36 +1,22 @@
 {
   "moblet": {
-    "label": "Lista pro",
-    "hint": "Crear una lista de contenido de texto enriquecido",
-    "description": "Rellene los campos a continuación para crear una lista de contenido"
+    "label": "Album pro",
+    "hint": "Crie um album de fotos",
+    "description": "Preencha os campos abaixo para criar o seu album"
   },
-  "locations": {
-    "label": "Lista de contenido",
-    "hint": "Insertar el contenido",
-    "list_button": "Añadir artículos"
+  "items": {
+    "label": "Album de fotos",
+    "hint": "Insira fotos no seu album",
+    "list_button": "Adicionar foto"
   },
   "title": {
     "label": "Título",
-    "hint": "Título del contenido",
-    "placeholder": "Mi título"
+    "hint": "Título da imagem",
+    "placeholder": "Meu título"
   },
   "description": {
-    "label": "Contenido",
-    "hint": "Llenar el contenido utilizando el editor de texto",
-    "placeholder": "Mi contenido"
-  },
-  "listStyle": {
-    "label": "Estilo de lista",
-    "hint": "Elija el estilo de lista del contenido",
-    "placeholder": "Elija un estilo",
-    "list_type_1": "Lista estándar",
-    "list_type_2": "Lista de tarjetas"
-  },
-  "itemStyle": {
-    "label": "Estilo de contenido",
-    "hint": "Elija el estilo del contenido",
-    "placeholder": "Elija un estilo",
-    "item_type_1": "Contenido estándar",
-    "item_type_2": "Contenido de tarjeta"
+    "label": "Descrição",
+    "hint": "Preencha com a descricão da sua imagem",
+    "placeholder": "Minha descricão"
   }
 }
