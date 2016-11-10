@@ -1,0 +1,36 @@
+{
+  "moblet": {
+    "label": "Pro Album",
+    "hint": "Create a list of rich text content",
+    "description": "Fill the fields below to create a list of content"
+  },
+  "locations": {
+    "label": "Content list",
+    "hint": "Insert the content",
+    "list_button": "Add items"
+  },
+  "title": {
+    "label": "Title",
+    "hint": "Content title",
+    "placeholder": "My title"
+  },
+  "description": {
+    "label": "Content",
+    "hint": "Fill the content with HTML using the text editor",
+    "placeholder": "My content"
+  },
+  "listStyle": {
+    "label": "List style",
+    "hint": "Choose the content list style",
+    "placeholder": "Choose a style",
+    "list_type_1": "Default list",
+    "list_type_2": "Card list"
+  },
+  "itemStyle": {
+    "label": "Item style",
+    "hint": "Choose the content style",
+    "placeholder": "Choose a style",
+    "item_type_1": "Default detail",
+    "item_type_2": "Card detail"
+  }
+}
