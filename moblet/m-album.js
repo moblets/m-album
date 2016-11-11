@@ -243,9 +243,7 @@ module.exports = {
     }
     
     window.malbumImageLoaded = function(element){
-      var id = element.attributes["image-id"].value
-      var del = document.getElementById("img-"+id);
-      del.classList.add("loaded");
+      element.parentElement.classList.add("loaded");
     }
   
     $scope.load = list.load;

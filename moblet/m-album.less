@@ -68,6 +68,14 @@ m-album{
 	.thumb-size{
 		width: 30.05vw;
 		height: 30.05vw;
+		.thumb{
+			opacity: 0;
+		}
+	}
+	.thumb-size.loaded{
+		.thumb{
+			opacity: 1;
+		}
 	}
 	.album{
 		min-height: 100%;
@@ -85,10 +93,6 @@ m-album{
 				height: 100%;
 				background-color: #D8D8D8;
 				background-size: cover;
-				opacity: 0;
-			}
-			.thumb.loaded{
-				opacity: 1;
 				-webkit-transition: opacity 0.5s ease-out; /* Safari */
 				transition: opacity 0.5s ease-out;
 			}
