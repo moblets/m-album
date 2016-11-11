@@ -2,12 +2,14 @@
   <m-content reload="load" more="more" >
     <div class="album" ng-if="!isDetail">
       <div class="foto" ng-repeat="item in items" ng-click="goTo(item)">
-        <div class="thumb" ng-style="{'background-image':'url({{item.image}})'}" >
+        <div class="skeleton thumb-size">
+          <div id="img-{{item.id}}" class="thumb" ng-style="{'background-image':'url({{item.image}})'}" ></div>
+          <img id="control-img-{{item.id}}" image-id="{{item.id}}" onload="malbumImageLoaded(this)"  ng-src="{{item.image}}" style="display:none" />
         </div>
       </div>
     </div>
     <div class="detail" ng-if="isDetail">
-      <div class="foto" ng-style="{'height':imageH}">
+      <div class="foto skeleton" ng-style="{'height':imageH}">
         <div class="image" ng-class="{'move-out':nextAnimation , 'no-animation':!nextAnimation}" ng-style="getDetailImage(detail)"
           ng-click="openModal()"
         ></div>
@@ -27,12 +29,9 @@
     </div>
     <script id="malbum-zoom-modal.html" type="text/ng-template">
       <ion-modal-view class="m-album-modal">
-        <ion-header-bar>
-          <h1 class="title">My Modal title</h1>
-        </ion-header-bar>
-        <ion-content>
+        <ion-content  ng-click="closeModal()">
           <ion-scroll zooming="true" direction="xy">
-            <img ng-src="{{detail.image}}" />
+            <img class="image" ng-src="{{detail.image}}" />
           </ion-scroll>
         </ion-content>
       </ion-modal-view>

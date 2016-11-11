@@ -53,16 +53,14 @@ module.exports = {
           $scope.error = true;
           $scope.emptyData = true;
         }
-
+        
+      
         // Broadcast complete refresh and infinite scroll
         $rootScope.$broadcast('scroll.refreshComplete');
         $rootScope.$broadcast('scroll.infiniteScrollComplete');
 
         // If the view is showing the detail, call showDetail
-        if ($scope.items.length === 1) {
-          $scope.isDetail = true;
-          list.showDetail(0);
-        } else if ($scope.isDetail) {
+        if ($scope.isDetail) {
           list.showDetail();
         }
 
@@ -152,6 +150,8 @@ module.exports = {
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
             list.setView(data, true);
+            $timeout(function(){
+            }, 500);
           });
       },
       /**
@@ -174,6 +174,9 @@ module.exports = {
     };
 
     var listItem = {
+      
+      
+      
       next: function(detail){
         if(detail.index !== -1 && detail.index < $scope.items.length - 1 ){
           $scope.nextAnimation = true;
@@ -215,7 +218,7 @@ module.exports = {
       created: function(){
         $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
            scope: $scope,
-           animation: 'slide-in-up'
+           animation: 'scale-in'
         }).then(function(modal) {
            $scope.modal = modal;
         });
@@ -238,9 +241,17 @@ module.exports = {
       var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
       return frame - descount + "px"
     }
+    
+    window.malbumImageLoaded = function(element){
+      var id = element.attributes["image-id"].value
+      var del = document.getElementById("img-"+id);
+      del.classList.add("loaded");
+    }
   
     $scope.load = list.load;
     $scope.init = list.init;
+    $scope.nextDetail = {};
+    $scope.prevDetail = {};
     $scope.goTo = listItem.goTo;
     $scope.getDetailImage = listItem.getDetailImage;
     $scope.next = listItem.next;
