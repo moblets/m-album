@@ -19,8 +19,7 @@
         },
         {
           "name": "description",
-          "type": "text",
-          "min-length": 3
+          "type": "text"
         }
       ]
     }
