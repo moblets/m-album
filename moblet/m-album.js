@@ -229,12 +229,15 @@ module.exports = {
         }).then(function(modal) {
           $scope.modal = modal;
         });
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
         $scope.openModal = function() {
-          $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
           $scope.modal.show();
         };
         $scope.closeModal = function() {
           $scope.modal.hide();
+          $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
         };
       }
     }
