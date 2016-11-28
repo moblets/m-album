@@ -30,9 +30,11 @@
     <script id="malbum-zoom-modal.html" type="text/ng-template">
       <ion-modal-view class="m-album-modal">
         <ion-content  ng-click="closeModal()">
-          <ion-scroll zooming="true" direction="xy">
-            <img class="image" ng-src="{{detail.image}}" />
-          </ion-scroll>
+          <div class="slide-zoom-container">
+            <ion-scroll  delegate-handle="m-album-zoom-scroll" zooming="true" overflow-scroll="false" direction="xy">
+              <img class="image" ng-src="{{detail.image}}" />
+            </ion-scroll>
+          </div>
         </ion-content>
       </ion-modal-view>
     </script>

@@ -17,7 +17,8 @@ module.exports = {
     $stateParams,
     $mDataLoader,
     $element,
-    $ionicModal
+    $ionicModal,
+    $ionicScrollDelegate
   ) {
     var dataLoadOptions;
     var list = {
@@ -223,6 +224,7 @@ module.exports = {
            $scope.modal = modal;
         });
         $scope.openModal = function() {
+          $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
           $scope.modal.show();
         };
         $scope.closeModal = function() {
