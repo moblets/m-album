@@ -237,7 +237,9 @@ module.exports = {
         };
         $scope.closeModal = function() {
           $scope.modal.hide();
-          $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
+          $timeout(function(){
+            $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
+          }, 500);
         };
       }
     }
