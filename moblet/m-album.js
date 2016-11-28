@@ -38,7 +38,7 @@ module.exports = {
 
           // Set "noContent" if the items lenght = 0
           $scope.noContent = $scope.items === undefined ||
-                             $scope.items.length === 0;
+            $scope.items.length === 0;
 
           // set empty itens if no content
           if ($scope.noContent) {
@@ -54,8 +54,8 @@ module.exports = {
           $scope.error = true;
           $scope.emptyData = true;
         }
-        
-      
+
+
         // Broadcast complete refresh and infinite scroll
         $rootScope.$broadcast('scroll.refreshComplete');
         $rootScope.$broadcast('scroll.infiniteScrollComplete');
@@ -118,6 +118,9 @@ module.exports = {
        * @param {function} callback Callback
        */
       load: function(showLoader, callback) {
+        if ($stateParams.detail === '') {
+          $stateParams.pageTitle = null;
+        }
         $scope.isLoading = showLoader || false;
         // Reset the pagination
         if (showLoader === true || showLoader === undefined) {
@@ -151,8 +154,7 @@ module.exports = {
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
             list.setView(data, true);
-            $timeout(function(){
-            }, 500);
+            $timeout(function() {}, 500);
           });
       },
       /**
@@ -175,53 +177,56 @@ module.exports = {
     };
 
     var listItem = {
-      
-      
-      
-      next: function(detail){
-        if(detail.index !== -1 && detail.index < $scope.items.length - 1 ){
+
+
+
+      next: function(detail) {
+        if (detail.index !== -1 && detail.index < $scope.items.length - 1) {
           $scope.nextAnimation = true;
-          $scope.nextDetail = $scope.items[detail.index+1];
-          $scope.nextDetail.index = detail.index+1;
-          $timeout(function(){
+          $scope.nextDetail = $scope.items[detail.index + 1];
+          $scope.nextDetail.index = detail.index + 1;
+          $timeout(function() {
             $scope.detail = $scope.nextDetail;
             $scope.nextAnimation = false;
-          },500);
+          }, 500);
         }
       },
-      prev: function(detail){
-        if(detail.index > 0){
+      prev: function(detail) {
+        if (detail.index > 0) {
           $scope.prevAnimation = true;
-          $scope.prevDetail = $scope.items[detail.index-1];
-          $scope.prevDetail.index = detail.index-1;
-          $timeout(function(){
+          $scope.prevDetail = $scope.items[detail.index - 1];
+          $scope.prevDetail.index = detail.index - 1;
+          $timeout(function() {
             $scope.detail = $scope.prevDetail;
             $scope.prevAnimation = false;
-          },500);
+          }, 500);
         }
       },
-      showPrev:function(detail){
+      showPrev: function(detail) {
         return detail.index > 0;
       },
-      showNext:function(detail){
+      showNext: function(detail) {
         return detail.index !== -1 && detail.index < $scope.items.length - 1;
       },
-      getDetailImage:function(detail){
-        return {"background-image":"url('"+detail.image+"')"};
+      getDetailImage: function(detail) {
+        return {
+          "background-image": "url('" + detail.image + "')"
+        };
       },
       goTo: function(detail) {
+        $stateParams.pageTitle = detail.title;
         $stateParams.detail = detail.id;
         $state.go('pages', $stateParams);
       }
     };
-    
+
     var modal = {
-      created: function(){
+      created: function() {
         $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
-           scope: $scope,
-           animation: 'scale-in'
+          scope: $scope,
+          animation: 'scale-in'
         }).then(function(modal) {
-           $scope.modal = modal;
+          $scope.modal = modal;
         });
         $scope.openModal = function() {
           $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
@@ -236,18 +241,18 @@ module.exports = {
     $scope.stripHtml = function(str) {
       return str.replace(/<[^>]+>/ig, " ");
     };
-    
-    function calculatedImageHeight(){
+
+    function calculatedImageHeight() {
       console.log($element);
       var frame = parseInt(window.getComputedStyle(document.querySelector("ion-nav-view .pane:last-child .scroll")).height);
       var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
       return frame - descount + "px"
     }
-    
-    window.malbumImageLoaded = function(element){
+
+    window.malbumImageLoaded = function(element) {
       element.parentElement.classList.add("loaded");
     }
-  
+
     $scope.load = list.load;
     $scope.init = list.init;
     $scope.nextDetail = {};
