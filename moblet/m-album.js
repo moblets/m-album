@@ -224,6 +224,7 @@ module.exports = {
       created: function() {
         $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
           scope: $scope,
+          hardwareBackButtonClose:true,
           animation: 'scale-in'
         }).then(function(modal) {
           $scope.modal = modal;
