@@ -245,14 +245,10 @@ module.exports = {
         $scope.destroyModal = function() {
           $scope.modal.remove();
         };
-
-        $scope.$on('$ionicView.beforeLeave', $scope.destroyModal);
-        $scope.$on('$destroy', $scope.destroyModal);
-        
         
       }
     }
-
+    
     $scope.stripHtml = function(str) {
       return str.replace(/<[^>]+>/ig, " ");
     };
@@ -279,6 +275,10 @@ module.exports = {
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
     modal.created();
+
+    $scope.$on('$ionicView.beforeLeave', $scope.destroyModal);
+    $scope.$on('$destroy', $scope.destroyModal);
+    
     list.init();
   }
 };
