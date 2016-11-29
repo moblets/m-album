@@ -228,19 +228,22 @@ module.exports = {
           animation: 'scale-in'
         }).then(function(modal) {
           $scope.modal = modal;
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
         });
-        $scope.$on('$destroy', function() {
-          $scope.modal.remove();
-        });
+        
         $scope.openModal = function() {
           $scope.modal.show();
         };
+        
         $scope.closeModal = function() {
           $scope.modal.hide();
           $timeout(function(){
             $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
           }, 500);
         };
+        
       }
     }
 
