@@ -242,7 +242,7 @@ module.exports = {
           }, 500);
         };
         
-        $scope.$on('$routeChangeStart', function() {
+        $rootScope.$on('$routeChangeStart', function() {
           $scope.closeModal();
         });
         
