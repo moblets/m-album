@@ -276,7 +276,7 @@ module.exports = {
     $scope.showPrev = listItem.showPrev;
     modal.created();
 
-    $scope.$on('$ionicView.beforeLeave', $scope.destroyModal);
+    $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
     
     list.init();
