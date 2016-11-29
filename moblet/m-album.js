@@ -242,9 +242,13 @@ module.exports = {
           }, 500);
         };
         
-        $rootScope.$on('$routeChangeStart', function() {
-          $scope.closeModal();
-        });
+        $scope.destroyModal = function() {
+          $scope.modal.remove();
+        };
+
+        $scope.$on('$ionicView.beforeLeave', $scope.destroyModal);
+        $scope.$on('$destroy', $scope.destroyModal);
+        
         
       }
     }
