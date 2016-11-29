@@ -228,13 +228,14 @@ module.exports = {
           animation: 'scale-in'
         }).then(function(modal) {
           $scope.modal = modal;
-          $scope.$on('$destroy', function() {
-            $scope.modal.remove();
-          });
+          $scope.modal.hide();
         });
         
         $scope.openModal = function() {
           $scope.modal.show();
+          $scope.$on('$destroy', function() {
+            $scope.modal.remove();
+          });
         };
         
         $scope.closeModal = function() {
