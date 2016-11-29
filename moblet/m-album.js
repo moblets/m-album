@@ -233,9 +233,6 @@ module.exports = {
         
         $scope.openModal = function() {
           $scope.modal.show();
-          $scope.$on('$destroy', function() {
-            $scope.modal.remove();
-          });
         };
         
         $scope.closeModal = function() {
@@ -244,6 +241,10 @@ module.exports = {
             $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
           }, 500);
         };
+        
+        $scope.$on('$routeChangeStart', function() {
+          $scope.closeModal();
+        });
         
       }
     }
