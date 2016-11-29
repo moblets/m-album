@@ -1,12 +1,12 @@
 {
   "moblet": {
-    "label": "Album pro",
-    "hint": "Crie um album de fotos",
-    "description": "Preencha os campos abaixo para criar o seu album"
+    "label": "Álbum pro",
+    "hint": "Crie um álbum de fotos",
+    "description": "Preencha os campos abaixo para criar o seu álbum"
   },
   "items": {
-    "label": "Album de fotos",
-    "hint": "Insira fotos no seu album",
+    "label": "Álbum de fotos",
+    "hint": "Insira fotos no seu álbum",
     "list_button": "Adicionar foto"
   },
   "title": {
@@ -16,7 +16,7 @@
   },
   "description": {
     "label": "Descrição",
-    "hint": "Preencha com a descricão da sua imagem",
-    "placeholder": "Minha descricão"
+    "hint": "Preencha com a descrição da sua imagem",
+    "placeholder": "Minha descrição"
   }
 }
