@@ -17,7 +17,8 @@ module.exports = {
     $stateParams,
     $mDataLoader,
     $element,
-    $ionicModal
+    $ionicModal,
+    $ionicScrollDelegate
   ) {
     var dataLoadOptions;
     var list = {
@@ -223,19 +224,31 @@ module.exports = {
       created: function() {
         $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
           scope: $scope,
+          hardwareBackButtonClose:true,
           animation: 'scale-in'
         }).then(function(modal) {
           $scope.modal = modal;
+          $scope.modal.hide();
         });
+        
         $scope.openModal = function() {
           $scope.modal.show();
         };
+        
         $scope.closeModal = function() {
           $scope.modal.hide();
+          $timeout(function(){
+            $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
+          }, 500);
         };
+        
+        $scope.destroyModal = function() {
+          $scope.modal.remove();
+        };
+        
       }
     }
-
+    
     $scope.stripHtml = function(str) {
       return str.replace(/<[^>]+>/ig, " ");
     };
@@ -262,6 +275,10 @@ module.exports = {
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
     modal.created();
+
+    $scope.$on('$stateChangeStart', $scope.destroyModal);
+    $scope.$on('$destroy', $scope.destroyModal);
+    
     list.init();
   }
 };

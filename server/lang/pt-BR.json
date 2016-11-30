@@ -5,7 +5,7 @@
     "description": "Preencha os campos abaixo para criar o seu álbum"
   },
   "items": {
-    "label": "Album de fotos",
+    "label": "Álbum de fotos",
     "hint": "Insira fotos no seu álbum",
     "list_button": "Adicionar foto"
   },
