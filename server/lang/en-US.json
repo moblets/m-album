@@ -12,11 +12,11 @@
   "title": {
     "label": "Title",
     "hint": "Image title",
-    "placeholder": "My great image"
+    "placeholder": "My image"
   },
   "description": {
     "label": "Description",
     "hint": "Fill with the image description",
-    "placeholder": "This is a great image!!!"
+    "placeholder": "This is a image!!!"
   }
 }

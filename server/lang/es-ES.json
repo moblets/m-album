@@ -12,11 +12,11 @@
   "title": {
     "label": "Título",
     "hint": "Título de la imagem",
-    "placeholder": "Mi bella imagen"
+    "placeholder": "Imagen"
   },
   "description": {
     "label": "Descripción",
     "hint": "Llenar la descripción de la imagen",
-    "placeholder": "Esta imagen es hermosa!"
+    "placeholder": "Esta imagen"
   }
 }
