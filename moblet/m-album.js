@@ -260,7 +260,12 @@ module.exports = {
 
     function calculatedImageHeight() {
       console.log($element);
-      var frame = parseInt(window.getComputedStyle(document.querySelector("ion-nav-view .pane:last-child .scroll")).height);
+      
+      var top = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["top"]);
+      var bottom = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["bottom"]);
+      var currentHeight = document.documentElement.clientHeight;
+      var frame = currentHeight - top - bottom
+      
       var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
       return frame - descount + "px"
     }

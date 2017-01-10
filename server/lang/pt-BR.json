@@ -12,11 +12,11 @@
   "title": {
     "label": "Título",
     "hint": "Título da imagem",
-    "placeholder": "Meu título"
+    "placeholder": "Imagem"
   },
   "description": {
     "label": "Descrição",
-    "hint": "Preencha com a descrição da sua imagem",
-    "placeholder": "Minha descrição"
+    "hint": "Preencha com a descricão da imagem",
+    "placeholder": "Descricão da imagem"
   }
 }
