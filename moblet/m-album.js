@@ -174,7 +174,9 @@ module.exports = {
         };
         $scope.load(true);
         $scope.reload = function(){
-          $scope.load();
+          if(!isDefined($stateParams.detail)){
+            $scope.load();
+          } 
         }
       }
     };
