@@ -13,7 +13,7 @@ module.exports = {
     $rootScope,
     $filter,
     $timeout,
-    $mState,
+    $state,
     $stateParams,
     $mDataLoader,
     $element,
@@ -37,11 +37,11 @@ module.exports = {
           $scope.items = (more) ? $scope.items.concat(data.items) : data.items;
 
           // Set "noContent" if the items lenght = 0
-          $scope.moblet.noContent = $scope.items === undefined ||
+          $scope.noContent = $scope.items === undefined ||
             $scope.items.length === 0;
 
           // set empty itens if no content
-          if ($scope.moblet.noContent) {
+          if ($scope.noContent) {
             $scope.items = [];
           }
 
@@ -66,7 +66,7 @@ module.exports = {
         }
 
         // Remove the loading animation
-        $scope.moblet.isLoading = false;
+        $scope.isLoading = false;
       },
       /**
        * Check if the view is showing a detail or the list. The function checks
@@ -121,7 +121,7 @@ module.exports = {
         if ($stateParams.detail === '') {
           $stateParams.pageTitle = null;
         }
-        $scope.moblet.isLoading = showLoader || false;
+        $scope.isLoading = showLoader || false;
         // Reset the pagination
         if (showLoader === true || showLoader === undefined) {
           dataLoadOptions.offset = 0;
@@ -219,7 +219,7 @@ module.exports = {
       goTo: function(detail) {
         $stateParams.pageTitle = detail.title;
         $stateParams.detail = detail.id;
-        $mState.go('u-moblets', 'page', {
+        $state.go('pages', {
           detail: detail.id
         });
       }
