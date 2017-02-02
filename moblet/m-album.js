@@ -49,7 +49,7 @@ module.exports = {
           $scope.isDetail = list.isDetail();
 
           // Disable the "more" function if the API don't have more items
-          $scope.more = (data.hasMoreItems) ? list.more : undefined;
+          $scope.more = (data.hasMoreItems && !$scope.isDetail) ? list.more : undefined;
         } else {
           $scope.error = true;
           $scope.emptyData = true;
@@ -149,6 +149,7 @@ module.exports = {
        */
       more: function() {
         // Add the items to the offset
+        
         dataLoadOptions.offset += dataLoadOptions.items;
 
         $mDataLoader.load($scope.moblet, dataLoadOptions)
@@ -156,6 +157,7 @@ module.exports = {
             list.setView(data, true);
             $timeout(function() {}, 500);
           });
+
       },
       /**
        * Initiate the list moblet:
