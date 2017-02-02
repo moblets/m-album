@@ -1,11 +1,6 @@
-<m-moblet init="init"  is-loading="isLoading" inner-scroll="true" no-content="noContent" unavaliable="error">
-  <m-content reload="load" more="more" >
     <div class="album" ng-if="!isDetail">
       <div class="foto" ng-repeat="item in items" ng-click="goTo(item)">
-        <div class="skeleton thumb-size">
-          <div id="img-{{item.id}}" class="thumb" ng-style="{'background-image':'url({{item.image}})'}" ></div>
-          <img id="control-img-{{item.id}}" image-id="{{item.id}}" onload="malbumImageLoaded(this)"  ng-src="{{item.image}}" style="display:none" />
-        </div>
+        <m-img encode="true" id="control-img-{{item.id}}" src="item.image"  />
       </div>
     </div>
     <div class="detail" ng-if="isDetail">
@@ -38,5 +33,3 @@
         </ion-content>
       </ion-modal-view>
     </script>
-  </m-content>
-</m-moblet>
