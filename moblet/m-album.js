@@ -176,7 +176,7 @@ module.exports = {
         };
         $scope.load(true);
         $scope.reload = function(){
-          if(!isDefined($stateParams.detail) && $stateParams.detail !== ""){
+          if($stateParams.detail !== ""){
             $scope.load();
           } else {
             $rootScope.$broadcast('scroll.refreshComplete');
