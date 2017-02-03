@@ -176,8 +176,11 @@ module.exports = {
         };
         $scope.load(true);
         $scope.reload = function(){
-          if(!isDefined($stateParams.detail)){
+          if(!isDefined($stateParams.detail) && $stateParams.detail !== ""){
             $scope.load();
+          } else {
+            $rootScope.$broadcast('scroll.refreshComplete');
+            $rootScope.$broadcast('scroll.infiniteScrollComplete');
           } 
         }
       }
