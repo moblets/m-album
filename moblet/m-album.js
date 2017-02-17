@@ -172,7 +172,7 @@ module.exports = {
           offset: 0,
           items: 25,
           listKey: 'items',
-          cache: ($stateParams.detail !== "")
+          cache: true
         };
         $scope.load(true);
         $scope.reload = function(){
@@ -187,8 +187,6 @@ module.exports = {
     };
 
     var listItem = {
-
-
 
       next: function(detail) {
         if (detail.index !== -1 && detail.index < $scope.items.length - 1) {
