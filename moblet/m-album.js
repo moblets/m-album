@@ -172,7 +172,7 @@ module.exports = {
           offset: 0,
           items: 25,
           listKey: 'items',
-          cache: true
+          cache: false
         };
         $scope.load(true);
         $scope.reload = function(){
