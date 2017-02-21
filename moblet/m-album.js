@@ -228,9 +228,11 @@ module.exports = {
        
       },
       getDetailImage: function(detail) {
-        return {
-          "background-image": "url('" + detail.image + "')"
-        };
+        if(isDefined(detail)){
+          return {
+            "background-image": "url('" + detail.image + "')"
+          };
+        }
       },
       goTo: function(detail) {
         $stateParams.pageTitle = detail.title;
