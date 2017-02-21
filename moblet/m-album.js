@@ -211,10 +211,21 @@ module.exports = {
         }
       },
       showPrev: function(detail) {
-        return detail.index > 0;
+        if(isDefined(detail))
+        {
+          return detail.index > 0;
+        } else {
+          return false
+        }
       },
       showNext: function(detail) {
-        return detail.index !== -1 && detail.index < $scope.items.length - 1;
+         if(isDefined(detail))
+        {
+           return detail.index !== -1 && detail.index < $scope.items.length - 1;
+        } else {
+          return false
+        }
+       
       },
       getDetailImage: function(detail) {
         return {
