@@ -82,7 +82,7 @@ module.exports = {
        */
       showDetail: function(detailIndex) {
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
-          $scope.imageH = calculatedImageHeight();
+          // $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
             return item.id.toString() === $stateParams.detail;
           });
