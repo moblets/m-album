@@ -18,7 +18,9 @@ module.exports = {
     $mDataLoader,
     $element,
     $ionicModal,
-    $ionicScrollDelegate
+    $ionicScrollDelegate,
+    $mDaia,
+    $mAuth
   ) {
     var dataLoadOptions;
     var list = {
@@ -81,6 +83,19 @@ module.exports = {
        * to the selected detail
        */
       showDetail: function(detailIndex) {
+        $mDaia.get('images/' + $stateParams.detail, {count: true}).then(function(response) {
+          $scope.detail.likesCount = response.count;
+        });
+
+        $mDaia.get('images/' + $stateParams.detail + '/likes', {
+          user: $mAuth.user.get().user.id,
+        }).then(function(response) {
+          if (response.length === 0) {
+            $scope.detail.userLikedPhoto = false;
+          } else {
+            $scope.detail.userLikedPhoto = true;
+          }
+        });  
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
           // $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
@@ -240,6 +255,27 @@ module.exports = {
         $mState.go('u-moblets', 'page', {
           detail: detail.id
         });
+      },
+      likeOrUnlike: function() {
+        if ($scope.detail.userLikedPhoto) {
+          $mDaia.remove('images/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id)
+          .then(function() {
+            $scope.detail.userLikedPhoto = false;
+            $scope.detail.likesCount -= 1;
+          });
+        } else {
+          $mDaia.push('images/' + $stateParams.detail + '/likes', {
+            _id: $mAuth.user.get().user.id,
+            user: true,
+            createdAt: true
+          }).then(function() {
+            $scope.detail.userLikedPhoto = true;
+            if ($scope.detail.likesCount === undefined) {
+              $scope.detail.likesCount = 0;
+            }
+            $scope.detail.likesCount += 1;
+          });
+        }
       }
     };
 
@@ -261,7 +297,7 @@ module.exports = {
         $scope.closeModal = function() {
           $scope.modal.hide();
           $timeout(function(){
-            $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
+            $ionicScrollDelegate.$getByHandle('m-album-zoom-scroll').zoomTo(1);
           }, 500);
         };
         
@@ -302,6 +338,7 @@ module.exports = {
     $scope.prev = listItem.prev;
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
+    $scope.likeOrUnlike = listItem.likeOrUnlike;
     modal.created();
 
     $scope.$on('$stateChangeStart', $scope.destroyModal);
