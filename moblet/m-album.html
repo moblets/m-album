@@ -21,14 +21,24 @@
     <i class="icon star-like" ng-click="likeOrUnlike()" 
       ng-class="{'ion-android-star-outline': !detail.userLikedPhoto, 'ion-android-star': detail.userLikedPhoto}"
     ></i>
-    <i class="icon ion-android-star"></i>
-    <span>{{detail.likesCount}}</span>
+
+    <div class="align-right">
+      <i class="icon ion-android-star"></i>
+      <span>{{detail.likesCount}}</span>
+
+      <div class="comments-count" ng-click="openCommentsModal()">
+        <i class="icon ion-chatbubbles" ></i>
+        <span>{{detail.commentsCount}}</span>
+      </div>
+    </div>
+
   </div>
   <div class="text">
     <h3 class="title">{{detail.title}}</h3>
     <p class="description">{{detail.description}}</p>
   </div>
 </div>
+
 <script id="malbum-zoom-modal.html" type="text/ng-template">
   <ion-modal-view class="m-album-modal">
     <ion-content  ng-click="closeModal()">
@@ -39,5 +49,34 @@
         </ion-scroll>
       </div>
     </ion-content>
+  </ion-modal-view>
+</script>
+
+<script id="malbum-comments-modal.html" type="text/ng-template">
+  <ion-modal-view>
+    <m-page class="has-header" no-external-action="true" background="white">
+      <m-header>
+        <m-header-title text="{{'malbum-comments' | translate}}" align="center"></m-header-title>
+        <m-header-action-left ng-if="$root.isIOS" title="{{ 'cancel' | translate }}" action="closeCommentsModal"></m-header-action-left>
+        <m-header-action-left ng-if="!$root.isIOS" icon="ion-android-close" action="closeCommentsModal"></m-header-action-left>
+      </m-header>
+      <div class="malbum-comments-modal">
+        <div ng-repeat="comment in comments" class="comment">
+          <h5 class="title">{{comment.user.name}}</h5>
+          <p class="message">{{comment.comment}}</p>
+          <p class="date">{{comment.createdAt | date: "dd/MM/yyyy 'às' HH'h'mm"}}</p>
+        </div>
+        <div class="row input-wrapper">
+          <div class="col col-90">
+            <label class="item item-input">
+              <input type="text" placeholder="Mensagem" ng-model="malbumUserComment" id="albumCommentsInput">
+            </label>
+          </div>
+          <div class="col col-10 send-btn" ng-click="sendMessage()">
+            <i class="icon ion-android-send" ng-class="{'disabled': malbumUserComment == ''}"></i>
+          </div>
+        </div>
+      </div>
+    </m-page>
   </ion-modal-view>
 </script>

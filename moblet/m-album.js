@@ -83,19 +83,30 @@ module.exports = {
        * to the selected detail
        */
       showDetail: function(detailIndex) {
-        $mDaia.get('images/' + $stateParams.detail, {count: true}).then(function(response) {
+        $scope.detail = {
+          likesCount: 0,
+          commentsCount: 0
+        }
+        $mDaia.get('images/' + $stateParams.detail + '/likes', {count: true}).then(function(response) {
           $scope.detail.likesCount = response.count;
         });
 
-        $mDaia.get('images/' + $stateParams.detail + '/likes', {
-          user: $mAuth.user.get().user.id,
-        }).then(function(response) {
-          if (response.length === 0) {
-            $scope.detail.userLikedPhoto = false;
-          } else {
-            $scope.detail.userLikedPhoto = true;
-          }
-        });  
+        $mDaia.get('images/' + $stateParams.detail + '/comments', {count: true}).then(function(response) {
+          $scope.detail.commentsCount = response.count;
+        });
+
+        // If the user is logged
+        if ($mAuth.user.get() !== undefined) {
+          $mDaia.get('images/' + $stateParams.detail + '/likes', {
+            user: $mAuth.user.get().user.id,
+          }).then(function(response) {
+            if (response.length === 0) {
+              $scope.detail.userLikedPhoto = false;
+            } else {
+              $scope.detail.userLikedPhoto = true;
+            }
+          });  
+        }
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
           // $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
@@ -303,9 +314,57 @@ module.exports = {
         
         $scope.destroyModal = function() {
           $scope.modal.remove();
+        }; 
+      }
+    }
+
+    var commentsModal = {
+      created: function() {
+        $ionicModal.fromTemplateUrl('malbum-comments-modal.html', {
+          scope: $scope,
+          hardwareBackButtonClose:true,
+          animation: 'scale-in'
+        }).then(function(modal) {
+          $scope.commentsModal = modal;
+          $scope.commentsModal.hide();
+        });
+        
+        $scope.openCommentsModal = function() {
+          $scope.malbumUserComment = "";
+          $scope.commentsModal.show();
+          $mDaia.get('images/' + $stateParams.detail + '/comments', {
+            showUserProfile: true
+          }).then(function(res) {
+            $scope.comments = res;
+          });
         };
         
-      }
+        $scope.closeCommentsModal = function() {
+          $scope.commentsModal.hide();
+        };
+        
+        $scope.destroyCommentsModal = function() {
+          $scope.commentsModal.remove();
+        };  
+
+        $scope.sendMessage = function() {
+          var comment = document.getElementById('albumCommentsInput').value;
+          if (comment != '') {
+            $mDaia.push('images/' + $stateParams.detail + '/comments', {
+              user: true,
+              createdAt: true,
+              comment: comment
+            }).then(function(res) {
+              $mDaia.get('images/' + $stateParams.detail + '/comments', {
+                showUserProfile: true
+              }).then(function(res) {
+                $scope.comments = res;
+              });
+              document.getElementById('albumCommentsInput').value = "";
+            });
+          }
+        };
+      },
     }
     
     $scope.stripHtml = function(str) {
@@ -340,9 +399,12 @@ module.exports = {
     $scope.showPrev = listItem.showPrev;
     $scope.likeOrUnlike = listItem.likeOrUnlike;
     modal.created();
+    commentsModal.created();
 
     $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
+    $scope.$on('$stateChangeStart', $scope.destroyCommentsModal);
+    $scope.$on('$destroy', $scope.destroyCommentsModal);
     
     list.init();
   }
