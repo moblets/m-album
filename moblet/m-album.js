@@ -83,24 +83,26 @@ module.exports = {
        * to the selected detail
        */
       showDetail: function(detailIndex) {
+        console.log($stateParams);
         $scope.detail = {
           likesCount: 0,
           commentsCount: 0
         }
-        $mDaia.get('images/' + $stateParams.detail + '/likes', {count: true}).then(function(response) {
-          $scope.detail.likesCount = response.count;
+        $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes')
+        .then(function(response) {
+          $scope.detail.likesCount = response.total;
         });
 
-        $mDaia.get('images/' + $stateParams.detail + '/comments', {count: true}).then(function(response) {
-          $scope.detail.commentsCount = response.count;
+        $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments')
+        .then(function(response) {
+          $scope.detail.commentsCount = response.total;
         });
 
         // If the user is logged
         if ($mAuth.user.get() !== undefined) {
-          $mDaia.get('images/' + $stateParams.detail + '/likes', {
-            user: $mAuth.user.get().user.id,
-          }).then(function(response) {
-            if (response.length === 0) {
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          $mDaia.get(url).then(function(response) {
+            if (response.total === 0) {
               $scope.detail.userLikedPhoto = false;
             } else {
               $scope.detail.userLikedPhoto = true;
@@ -269,16 +271,20 @@ module.exports = {
       },
       likeOrUnlike: function() {
         if ($scope.detail.userLikedPhoto) {
-          $mDaia.remove('images/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id)
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          $mDaia.remove(url)
           .then(function() {
             $scope.detail.userLikedPhoto = false;
             $scope.detail.likesCount -= 1;
           });
         } else {
-          $mDaia.push('images/' + $stateParams.detail + '/likes', {
-            _id: $mAuth.user.get().user.id,
-            user: true,
-            createdAt: true
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
+          $mDaia.push(url, {
+            id: $mAuth.user.get().user.id,
+            body: {
+              user: true,
+              date: true
+            }
           }).then(function() {
             $scope.detail.userLikedPhoto = true;
             if ($scope.detail.likesCount === undefined) {
@@ -332,10 +338,10 @@ module.exports = {
         $scope.openCommentsModal = function() {
           $scope.malbumUserComment = "";
           $scope.commentsModal.show();
-          $mDaia.get('images/' + $stateParams.detail + '/comments', {
-            showUserProfile: true
+          $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+            profile: true
           }).then(function(res) {
-            $scope.comments = res;
+            $scope.comments = res.results;
           });
         };
         
@@ -345,20 +351,22 @@ module.exports = {
         
         $scope.destroyCommentsModal = function() {
           $scope.commentsModal.remove();
-        };  
+        };
 
         $scope.sendMessage = function() {
           var comment = document.getElementById('albumCommentsInput').value;
           if (comment != '') {
-            $mDaia.push('images/' + $stateParams.detail + '/comments', {
-              user: true,
-              createdAt: true,
-              comment: comment
+            $mDaia.push('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+              body: {
+                user: true,
+                date: true,
+                comment: comment
+              }
             }).then(function(res) {
-              $mDaia.get('images/' + $stateParams.detail + '/comments', {
-                showUserProfile: true
+              $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+                profile: true
               }).then(function(res) {
-                $scope.comments = res;
+                $scope.comments = res.results;
               });
               document.getElementById('albumCommentsInput').value = "";
             });

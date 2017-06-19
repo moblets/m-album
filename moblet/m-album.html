@@ -64,7 +64,7 @@
         <div ng-repeat="comment in comments" class="comment">
           <h5 class="title">{{comment.user.name}}</h5>
           <p class="message">{{comment.comment}}</p>
-          <p class="date">{{comment.createdAt | date: "dd/MM/yyyy 'às' HH'h'mm"}}</p>
+          <p class="date">{{comment.date | date: "dd/MM/yyyy 'às' HH'h'mm"}}</p>
         </div>
         <div class="row input-wrapper">
           <div class="col col-90">
