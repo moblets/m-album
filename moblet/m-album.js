@@ -88,8 +88,8 @@ module.exports = {
           });
           if (itemIndex === -1) {
             dataLoadOptions = {
-              offset: $scope.items === undefined ? 0 : $scope.items.length,
-              items: 25,
+              //offset: $scope.items === undefined ? 0 : $scope.items.length,
+              items: 1000,
               cache: false
             };
             list.load(false, function() {
