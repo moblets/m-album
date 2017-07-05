@@ -18,7 +18,9 @@ module.exports = {
     $mDataLoader,
     $element,
     $ionicModal,
-    $ionicScrollDelegate
+    $ionicScrollDelegate,
+    $mDaia,
+    $mAuth
   ) {
     var dataLoadOptions;
     var list = {
@@ -81,6 +83,32 @@ module.exports = {
        * to the selected detail
        */
       showDetail: function(detailIndex) {
+        console.log($stateParams);
+        $scope.detail = {
+          likesCount: 0,
+          commentsCount: 0
+        }
+        $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes')
+        .then(function(response) {
+          $scope.detail.likesCount = response.total;
+        });
+
+        $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments')
+        .then(function(response) {
+          $scope.detail.commentsCount = response.total;
+        });
+
+        // If the user is logged
+        if ($mAuth.user.get() !== undefined) {
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          $mDaia.get(url).then(function(response) {
+            if (response.total === 0) {
+              $scope.detail.userLikedPhoto = false;
+            } else {
+              $scope.detail.userLikedPhoto = true;
+            }
+          });  
+        }
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
           // $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
@@ -240,6 +268,31 @@ module.exports = {
         $mState.go('u-moblets', 'page', {
           detail: detail.id
         });
+      },
+      likeOrUnlike: function() {
+        if ($scope.detail.userLikedPhoto) {
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          $mDaia.remove(url)
+          .then(function() {
+            $scope.detail.userLikedPhoto = false;
+            $scope.detail.likesCount -= 1;
+          });
+        } else {
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
+          $mDaia.push(url, {
+            id: $mAuth.user.get().user.id,
+            body: {
+              user: true,
+              date: true
+            }
+          }).then(function() {
+            $scope.detail.userLikedPhoto = true;
+            if ($scope.detail.likesCount === undefined) {
+              $scope.detail.likesCount = 0;
+            }
+            $scope.detail.likesCount += 1;
+          });
+        }
       }
     };
 
@@ -261,15 +314,65 @@ module.exports = {
         $scope.closeModal = function() {
           $scope.modal.hide();
           $timeout(function(){
-            $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
+            $ionicScrollDelegate.$getByHandle('m-album-zoom-scroll').zoomTo(1);
           }, 500);
         };
         
         $scope.destroyModal = function() {
           $scope.modal.remove();
+        }; 
+      }
+    }
+
+    var commentsModal = {
+      created: function() {
+        $ionicModal.fromTemplateUrl('malbum-comments-modal.html', {
+          scope: $scope,
+          hardwareBackButtonClose:true,
+          animation: 'scale-in'
+        }).then(function(modal) {
+          $scope.commentsModal = modal;
+          $scope.commentsModal.hide();
+        });
+        
+        $scope.openCommentsModal = function() {
+          $scope.malbumUserComment = "";
+          $scope.commentsModal.show();
+          $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+            profile: true
+          }).then(function(res) {
+            $scope.comments = res.results;
+          });
         };
         
-      }
+        $scope.closeCommentsModal = function() {
+          $scope.commentsModal.hide();
+        };
+        
+        $scope.destroyCommentsModal = function() {
+          $scope.commentsModal.remove();
+        };
+
+        $scope.sendMessage = function() {
+          var comment = document.getElementById('albumCommentsInput').value;
+          if (comment != '') {
+            $mDaia.push('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+              body: {
+                user: true,
+                date: true,
+                comment: comment
+              }
+            }).then(function(res) {
+              $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+                profile: true
+              }).then(function(res) {
+                $scope.comments = res.results;
+              });
+              document.getElementById('albumCommentsInput').value = "";
+            });
+          }
+        };
+      },
     }
     
     $scope.stripHtml = function(str) {
@@ -302,10 +405,14 @@ module.exports = {
     $scope.prev = listItem.prev;
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
+    $scope.likeOrUnlike = listItem.likeOrUnlike;
     modal.created();
+    commentsModal.created();
 
     $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
+    $scope.$on('$stateChangeStart', $scope.destroyCommentsModal);
+    $scope.$on('$destroy', $scope.destroyCommentsModal);
     
     list.init();
   }

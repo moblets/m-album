@@ -202,6 +202,76 @@ m-album{
 		    width: 100%;
 			}
 		}
-	}
 
+		.interaction {
+			border-bottom: 1px solid #e5e5e5;
+			padding: 5px 0;
+			.star-like {
+				font-size: 40px;
+			}
+			.align-right {
+				float: right;
+				line-height: 40px;
+				color: gray;
+				font-size: 16px;
+				span {
+					font-size: 14px;
+				}
+				.comments-count {
+					display: inline;
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}
+
+.malbum-comments-modal {
+	width: 100%;
+	min-height: 100%;
+	position: relative;
+	.comment {
+		padding: 0 10px 1px 10px;
+		.title {
+			margin-bottom: 2px;
+			text-transform: capitalize;
+		}
+		.message {
+			color: #565656;
+			margin-bottom: 0px;
+		}
+		.date {
+			font-size: 10px;
+			color: gray;
+		}
+		&:last-child {
+			padding-bottom: 60px;
+		}
+	}
+	
+	.input-wrapper {
+		bottom: 0;
+		position: absolute;
+		border-top: 1px solid #e5e5e5;
+		background-color: #f1f1f1;
+		.item-input {
+			height: 32px;
+			color: #5b5b5b;
+			background-color: transparent;
+			border: none;
+			padding: 0px;
+			font-size: 14px;
+			font-weight: 400;
+			border-bottom: 1px black solid;
+		}
+		.send-btn {
+			padding-top: 16px;
+			.icon {
+				font-size: 22px
+			}
+			.disabled {
+				color: silver;
+			}
+		}
+	}
 }
