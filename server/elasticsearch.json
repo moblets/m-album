@@ -1,0 +1,82 @@
+{
+  "mappings": {
+    "comments": {
+      "properties": {
+        "parent": {
+          "properties": {
+            "app": {
+              "type": "integer"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "item": {
+              "type": "keyword"
+            }
+          }
+        },
+        "comment": {
+          "type": "text"
+        },
+        "user": {
+          "type": "keyword"
+        },
+        "date": {
+          "type": "date"
+        }
+      }
+    },
+    "likes": {
+      "properties": {
+        "parent": {
+          "properties": {
+            "app": {
+              "type": "integer"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "item": {
+              "type": "keyword"
+            }
+          }
+        },
+        "user": {
+          "type": "keyword"
+        },
+        "date": {
+          "type": "date"
+        }
+      }
+    },
+    "reports": {
+      "properties": {
+        "parent": {
+          "properties": {
+            "app": {
+              "type": "integer"
+            },
+            "code": {
+              "type": "integer"
+            },
+            "item": {
+              "type": "keyword"
+            },
+            "comment": {
+              "type": "keyword"
+            }
+          }
+        },
+        "user": {
+          "type": "keyword"
+        },
+        "date": {
+          "type": "date"
+        },
+        "reason": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
