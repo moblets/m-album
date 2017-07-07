@@ -73,7 +73,7 @@
         "reason": {
           "type": "text"
         },
-        "comment": {
+        "commentId": {
           "type": "keyword"
         }
       }
