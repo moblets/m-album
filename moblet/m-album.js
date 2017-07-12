@@ -20,7 +20,8 @@ module.exports = {
     $ionicModal,
     $ionicScrollDelegate,
     $mDaia,
-    $mAuth
+    $mAuth,
+    $ionicPopover
   ) {
     var dataLoadOptions;
     var list = {
@@ -371,6 +372,16 @@ module.exports = {
               document.getElementById('albumCommentsInput').value = "";
             });
           }
+        };
+
+        $scope.openPopover = function($event , item){
+          $scope.item = item;
+          var template = fs.readFileSync(path.join(__dirname,
+            'm-album-report.html'), 'utf8');
+          $scope.popover = $ionicPopover.fromTemplate(template, {
+            scope: $scope
+          });
+          $scope.popover.show($event);
         };
       },
     }
