@@ -105,7 +105,7 @@ module.exports = {
 
         // If the user is logged
         if ($mAuth.user.get() !== undefined) {
-          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/search';
           var query = {
             query: {
               match: {
