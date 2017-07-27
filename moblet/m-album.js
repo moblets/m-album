@@ -106,11 +106,19 @@ module.exports = {
         // If the user is logged
         if ($mAuth.user.get() !== undefined) {
           var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
-          $mDaia.get(url).then(function(response) {
-            if (response.found) {
-              $scope.detail.userLikedPhoto = true;
-            } else {
+          var query = {
+            query: {
+              match: {
+                user: $mAuth.user.get().user.id
+              }
+            }
+          };
+          console.log('query', query);
+          $mDaia.post(url, query).then(function(response) {
+            if (response.total === 0) {
               $scope.detail.userLikedPhoto = false;
+            } else {
+              $scope.detail.userLikedPhoto = true;
             }
           });  
         }
@@ -290,7 +298,7 @@ module.exports = {
           });
         } else {
           var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
-          $mDaia.push(url, {
+          $mDaia.post(url, {
             id: $mAuth.user.get().user.id,
             body: {
               user: true,
@@ -367,7 +375,7 @@ module.exports = {
         $scope.sendMessage = function() {
           var comment = document.getElementById('albumCommentsInput').value;
           if (comment != '') {
-            $mDaia.push('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+            $mDaia.post('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
               body: {
                 user: true,
                 date: true,
