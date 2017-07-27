@@ -25,6 +25,7 @@ module.exports = {
     $mAlert
   ) {
     var dataLoadOptions;
+    var userLikeId;
     var list = {
       /**
        * Set the view and update the needed parameters
@@ -118,6 +119,7 @@ module.exports = {
               $scope.detail.userLikedPhoto = false;
             } else {
               $scope.detail.userLikedPhoto = true;
+              userLikeId = response.results[0]._id;
             }
           });  
         }
@@ -289,7 +291,7 @@ module.exports = {
       },
       likeOrUnlike: function() {
         if ($scope.detail.userLikedPhoto) {
-          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
+          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + userLikeId;
           $mDaia.remove(url)
           .then(function() {
             $scope.detail.userLikedPhoto = false;
