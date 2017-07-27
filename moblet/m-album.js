@@ -21,7 +21,8 @@ module.exports = {
     $ionicScrollDelegate,
     $mDaia,
     $mAuth,
-    $ionicPopover
+    $ionicPopover,
+    $mAlert
   ) {
     var dataLoadOptions;
     var list = {
@@ -84,7 +85,10 @@ module.exports = {
        * to the selected detail
        */
       showDetail: function(detailIndex) {
-        console.log($stateParams);
+        console.log($stateParams.detail);
+        if(detailIndex !== undefined) {
+          $stateParams.detail = $scope.items[detailIndex].id;
+        }
         $scope.detail = {
           likesCount: 0,
           commentsCount: 0
@@ -103,10 +107,10 @@ module.exports = {
         if ($mAuth.user.get() !== undefined) {
           var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + $mAuth.user.get().user.id;
           $mDaia.get(url).then(function(response) {
-            if (response.total === 0) {
-              $scope.detail.userLikedPhoto = false;
-            } else {
+            if (response.found) {
               $scope.detail.userLikedPhoto = true;
+            } else {
+              $scope.detail.userLikedPhoto = false;
             }
           });  
         }
@@ -121,9 +125,10 @@ module.exports = {
               items: 1000,
               cache: false
             };
-            list.load(false, function() {
-              list.showDetail();
-            });
+            // Comentei o bloco abaixo para evitar um loop infinito de requisições
+            // list.load(false, function() {
+            //   list.showDetail();
+            // });
           } else {
             $scope.detail = $scope.items[itemIndex];
             $scope.detail.index = itemIndex;
@@ -223,6 +228,8 @@ module.exports = {
           $scope.nextDetail = $scope.items[detail.index + 1];
           $scope.nextDetail.index = detail.index + 1;
           $timeout(function() {
+            //$stateParams.detail = $scope.items[$scope.detail.index].id;
+            list.showDetail($scope.nextDetail.index);
             $scope.detail = $scope.nextDetail;
             $scope.nextAnimation = false;
           }, 500);
@@ -234,6 +241,9 @@ module.exports = {
           $scope.prevDetail = $scope.items[detail.index - 1];
           $scope.prevDetail.index = detail.index - 1;
           $timeout(function() {
+            //$stateParams.detail = $scope.items[$scope.detail.index].id;
+            console.log($stateParams.detail);
+            list.showDetail($scope.prevDetail.index);
             $scope.detail = $scope.prevDetail;
             $scope.prevAnimation = false;
           }, 500);
@@ -383,7 +393,38 @@ module.exports = {
           });
           $scope.popover.show($event);
         };
-      },
+
+
+        $scope.report = function() {
+          $scope.popover.hide();
+          $mAlert.dialog($filter('translate')("report_title"),
+            $filter('translate')("report_confirm"),
+            [$filter('translate')("cancel_button"),
+            $filter('translate')("report_button")])
+            .then(function(success) {
+              if (success) {
+                //form.block(item);
+                console.log($scope.item);
+              }
+            });
+        };
+
+        $scope.block = function() {
+          $scope.popover.hide();
+          $mAlert.dialog($filter('translate')("block_title"),
+            $filter('translate')("block_confirm"),
+            [$filter('translate')("cancel_button"),
+            $filter('translate')("block_button")])
+            .then(function(success) {
+              if (success) {
+                //form.block(item);
+                console.log($scope.item);
+              }
+            });
+        };
+
+
+      }
     }
     
     $scope.stripHtml = function(str) {
