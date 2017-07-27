@@ -109,7 +109,6 @@ module.exports = {
               }
             }
           };
-          console.log('query', query);
           $mDaia.post(url, query).then(function(response) {
             if (response.total === 0) {
               $scope.detail.userLikedPhoto = false;
@@ -289,7 +288,6 @@ module.exports = {
         } else {
           var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
           $mDaia.post(url, {
-            id: $mAuth.user.get().user.id,
             body: {
               user: true,
               date: true
