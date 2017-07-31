@@ -1,0 +1,11 @@
+{
+  "comments": {
+    "label": "Comentários"
+  },
+  "likes": {
+    "label": "Curtidas"
+  },
+  "reports": {
+    "label": "Denúncias"
+  }
+}

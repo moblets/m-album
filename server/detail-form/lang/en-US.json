@@ -1,0 +1,11 @@
+{
+  "comments": {
+    "label": "Comments"
+  },
+  "likes": {
+    "label": "Likes"
+  },
+  "reports": {
+    "label": "Reports"
+  }
+}
