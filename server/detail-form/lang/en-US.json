@@ -1,11 +1,64 @@
 {
   "comments": {
-    "label": "Comments"
+    "label": "Comments",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "User"
+      },
+      {
+        "id": "date",
+        "label": "Date"
+      },
+      {
+        "id": "comment",
+        "label": "Comment"
+      }
+    ]
   },
   "likes": {
-    "label": "Likes"
+    "label": "Likes",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "User"
+      },
+      {
+        "id": "date",
+        "label": "Date"
+      }
+    ]
   },
   "reports": {
-    "label": "Reports"
+    "label": "Reports",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "User"
+      },
+      {
+        "id": "date",
+        "label": "Date"
+      },
+      {
+        "id": "commentId",
+        "label": "Id from the comment"
+      }
+    ]
   }
 }

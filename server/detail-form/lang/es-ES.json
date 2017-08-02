@@ -1,11 +1,64 @@
 {
   "comments": {
-    "label": "Comentarios"
+    "label": "Comentarios",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "Usuario"
+      },
+      {
+        "id": "date",
+        "label": "Fecha"
+      },
+      {
+        "id": "comment",
+        "label": "Comentario"
+      }
+    ]
   },
   "likes": {
-    "label": "Curtidos"
+    "label": "Curtidos",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "Usuario"
+      },
+      {
+        "id": "date",
+        "label": "Fecha"
+      }
+    ]
   },
   "reports": {
-    "label": "Denuncias"
+    "label": "Denuncias",
+    "isDeletable": true,
+    "fields": [
+      {
+        "id": "_id",
+        "label": "Id"
+      },
+      {
+        "id": "user",
+        "label": "Usuario"
+      },
+      {
+        "id": "date",
+        "label": "Fecha"
+      },
+      {
+        "id": "commentId",
+        "label": "Id del comentario"
+      }
+    ]
   }
 }

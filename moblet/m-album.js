@@ -411,27 +411,17 @@ module.exports = {
             $filter('translate')("report_button")])
             .then(function(success) {
               if (success) {
-                //form.block(item);
-                console.log($scope.item);
+                var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/reports';
+                $mDaia.post(url, {
+                  body: {
+                    user: true,
+                    date: true,
+                    commentId: $scope.item._id
+                  }
+                });
               }
             });
         };
-
-        $scope.block = function() {
-          $scope.popover.hide();
-          $mAlert.dialog($filter('translate')("block_title"),
-            $filter('translate')("block_confirm"),
-            [$filter('translate')("cancel_button"),
-            $filter('translate')("block_button")])
-            .then(function(success) {
-              if (success) {
-                //form.block(item);
-                console.log($scope.item);
-              }
-            });
-        };
-
-
       }
     }
     
