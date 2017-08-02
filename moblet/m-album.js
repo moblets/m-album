@@ -105,24 +105,26 @@ module.exports = {
         });
 
         // If the user is logged
-        if ($mAuth.user.get() !== undefined) {
-          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/search';
-          var query = {
-            query: {
-              match: {
-                user: $mAuth.user.get().user.id
+        $mAuth.user.isLogged(function(isLogged) {
+          if (isLogged) {
+            var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/search';
+            var query = {
+              query: {
+                match: {
+                  user: $mAuth.user.get().user.id
+                }
               }
-            }
-          };
-          $mDaia.post(url, query).then(function(response) {
-            if (response.total === 0) {
-              $scope.detail.userLikedPhoto = false;
-            } else {
-              $scope.detail.userLikedPhoto = true;
-              userLikeId = response.results[0]._id;
-            }
-          });  
-        }
+            };
+            $mDaia.post(url, query).then(function(response) {
+              if (response.total === 0) {
+                $scope.detail.userLikedPhoto = false;
+              } else {
+                $scope.detail.userLikedPhoto = true;
+                userLikeId = response.results[0]._id;
+              }
+            });  
+          }
+        });
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
           // $scope.imageH = calculatedImageHeight();
           var itemIndex = _.findIndex($scope.items, function(item) {
@@ -290,28 +292,34 @@ module.exports = {
         });
       },
       likeOrUnlike: function() {
-        if ($scope.detail.userLikedPhoto) {
-          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + userLikeId;
-          $mDaia.remove(url)
-          .then(function() {
-            $scope.detail.userLikedPhoto = false;
-            $scope.detail.likesCount -= 1;
-          });
-        } else {
-          var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
-          $mDaia.post(url, {
-            body: {
-              user: true,
-              date: true
+        $mAuth.user.isLogged(function(isLogged) {
+          if (isLogged) {
+            if ($scope.detail.userLikedPhoto) {
+              var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + userLikeId;
+              $mDaia.remove(url)
+              .then(function() {
+                $scope.detail.userLikedPhoto = false;
+                $scope.detail.likesCount -= 1;
+              });
+            } else {
+              var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
+              $mDaia.post(url, {
+                body: {
+                  user: true,
+                  date: true
+                }
+              }).then(function() {
+                $scope.detail.userLikedPhoto = true;
+                if ($scope.detail.likesCount === undefined) {
+                  $scope.detail.likesCount = 0;
+                }
+                $scope.detail.likesCount += 1;
+              });
             }
-          }).then(function() {
-            $scope.detail.userLikedPhoto = true;
-            if ($scope.detail.likesCount === undefined) {
-              $scope.detail.likesCount = 0;
-            }
-            $scope.detail.likesCount += 1;
-          });
-        }
+          } else {
+            $mAuth.login();
+          }
+        });
       }
     };
 
@@ -373,23 +381,29 @@ module.exports = {
         };
 
         $scope.sendMessage = function() {
-          var comment = document.getElementById('albumCommentsInput').value;
-          if (comment != '') {
-            $mDaia.post('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
-              body: {
-                user: true,
-                date: true,
-                comment: comment
+          $mAuth.user.isLogged(function(isLogged) {
+            if (isLogged) {
+              var comment = document.getElementById('albumCommentsInput').value;
+              if (comment != '') {
+                $mDaia.post('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+                  body: {
+                    user: true,
+                    date: true,
+                    comment: comment
+                  }
+                }).then(function(res) {
+                  $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
+                    profile: true
+                  }).then(function(res) {
+                    $scope.comments = res.results;
+                  });
+                  document.getElementById('albumCommentsInput').value = "";
+                });
               }
-            }).then(function(res) {
-              $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
-                profile: true
-              }).then(function(res) {
-                $scope.comments = res.results;
-              });
-              document.getElementById('albumCommentsInput').value = "";
-            });
-          }
+            } else {
+              $mAuth.login();
+            }
+          });
         };
 
         $scope.openPopover = function($event , item){
@@ -411,12 +425,18 @@ module.exports = {
             $filter('translate')("report_button")])
             .then(function(success) {
               if (success) {
-                var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/reports';
-                $mDaia.post(url, {
-                  body: {
-                    user: true,
-                    date: true,
-                    commentId: $scope.item._id
+                $mAuth.user.isLogged(function(isLogged) {
+                  if (isLogged) {
+                    var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/reports';
+                    $mDaia.post(url, {
+                      body: {
+                        user: true,
+                        date: true,
+                        commentId: $scope.item._id
+                      }
+                    });
+                  } else {
+                    $mAuth.login();
                   }
                 });
               }
