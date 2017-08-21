@@ -425,18 +425,12 @@ module.exports = {
             $filter('translate')("report_button")])
             .then(function(success) {
               if (success) {
-                $mAuth.user.isLogged(function(isLogged) {
-                  if (isLogged) {
-                    var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/reports';
-                    $mDaia.post(url, {
-                      body: {
-                        user: true,
-                        date: true,
-                        commentId: $scope.item._id
-                      }
-                    });
-                  } else {
-                    $mAuth.login();
+                var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/reports';
+                $mDaia.post(url, {
+                  body: {
+                    user: true,
+                    date: true,
+                    commentId: $scope.item._id
                   }
                 });
               }
