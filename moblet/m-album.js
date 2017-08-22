@@ -317,6 +317,7 @@ module.exports = {
               });
             }
           } else {
+            $scope.commentsModal.hide();
             $mAuth.login();
           }
         });
@@ -401,6 +402,7 @@ module.exports = {
                 });
               }
             } else {
+              $scope.commentsModal.hide();
               $mAuth.login();
             }
           });
