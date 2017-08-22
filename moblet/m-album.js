@@ -477,8 +477,6 @@ module.exports = {
 
     $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
-    $scope.$on('$stateChangeStart', $scope.destroyCommentsModal);
-    $scope.$on('$destroy', $scope.destroyCommentsModal);
     
     list.init();
   }
