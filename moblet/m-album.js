@@ -292,14 +292,24 @@ module.exports = {
         });
       },
       likeOrUnlike: function() {
+        if ($scope.doingRequest) return;
+        $scope.doingRequest = true;
+        
         $mAuth.user.isLogged(function(isLogged) {
           if (isLogged) {
             if ($scope.detail.userLikedPhoto) {
               var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes/' + userLikeId;
               $mDaia.remove(url)
               .then(function() {
+                setTimeout(function() {
+                  $scope.doingRequest = false;
+                }, 1000);
                 $scope.detail.userLikedPhoto = false;
                 $scope.detail.likesCount -= 1;
+              }).catch(function() {
+                setTimeout(function() {
+                  $scope.doingRequest = false;
+                }, 1000);
               });
             } else {
               var url = 'm-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/likes';
@@ -309,11 +319,18 @@ module.exports = {
                   date: true
                 }
               }).then(function() {
+                setTimeout(function() {
+                  $scope.doingRequest = false;
+                }, 1000);
                 $scope.detail.userLikedPhoto = true;
                 if ($scope.detail.likesCount === undefined) {
                   $scope.detail.likesCount = 0;
                 }
                 $scope.detail.likesCount += 1;
+              }).catch(function() {
+                setTimeout(function() {
+                  $scope.doingRequest = false;
+                }, 1000);
               });
             }
           } else {
@@ -382,6 +399,9 @@ module.exports = {
         };
 
         $scope.sendMessage = function() {
+          if ($scope.doingRequest) return;
+          $scope.doingRequest = true;
+
           $mAuth.user.isLogged(function(isLogged) {
             if (isLogged) {
               var comment = document.getElementById('albumCommentsInput').value;
@@ -393,12 +413,19 @@ module.exports = {
                     comment: comment
                   }
                 }).then(function(res) {
+                  setTimeout(function() {
+                    $scope.doingRequest = false;
+                  }, 1000);
                   $mDaia.get('m-album/' + $stateParams.pageId + '/' + $stateParams.detail + '/comments', {
                     profile: true
                   }).then(function(res) {
                     $scope.comments = res.results;
                   });
                   document.getElementById('albumCommentsInput').value = "";
+                }).catch(function() {
+                  setTimeout(function() {
+                    $scope.doingRequest = false;
+                  }, 1000);
                 });
               }
             } else {
@@ -420,6 +447,9 @@ module.exports = {
 
 
         $scope.report = function() {
+          if ($scope.doingRequest) return;
+          $scope.doingRequest = true;
+
           $scope.popover.hide();
           $mAlert.dialog($filter('translate')("report_title"),
             $filter('translate')("report_confirm"),
@@ -434,6 +464,14 @@ module.exports = {
                     date: true,
                     commentId: $scope.item._id
                   }
+                }).then(function() { 
+                  setTimeout(function() {
+                    $scope.doingRequest = false;
+                  }, 1000);
+                }).catch(function() {
+                  setTimeout(function() {
+                    $scope.doingRequest = false;
+                  }, 1000);
                 });
               }
             });
