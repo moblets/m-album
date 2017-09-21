@@ -215,7 +215,7 @@ module.exports = {
       init: function() {
         dataLoadOptions = {
           offset: 0,
-          items: 25,
+          items: 1000,
           listKey: 'items',
           cache: false
         };
