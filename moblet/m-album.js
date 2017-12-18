@@ -24,6 +24,7 @@ module.exports = {
     $ionicPopover,
     $mAlert
   ) {
+    var dadosIniciais = [];
     var dataLoadOptions;
     var userLikeId;
     var list = {
@@ -37,7 +38,13 @@ module.exports = {
         if (isDefined(data)) {
           $scope.error = false;
           $scope.emptyData = false;
+          var origData = JSON.stringify(data.items);
 
+          if (data.search === true) {
+             $rootScope.$broadcast('hideShowSearch' , {data});
+          }
+
+          $rootScope.$broadcast('show-search-portal');
           // If it was called from the "more" function, concatenate the items
           $scope.items = (more) ? $scope.items.concat(data.items) : data.items;
 
@@ -65,6 +72,41 @@ module.exports = {
         $rootScope.$broadcast('scroll.refreshComplete');
         $rootScope.$broadcast('scroll.infiniteScrollComplete');
 
+        if (!$scope.isDetail) {
+           $rootScope.$broadcast('show-search', {data});
+         }
+ 
+         $scope.$on("update-data", function(event, args) { 
+ 
+           console.log(document.getElementById('input-search').style.color);
+ 
+           if ($scope.items.length < dadosIniciais.length) {
+             $scope.items = [];
+ 
+             for (var i = 0; dadosIniciais[i] !== undefined; i++) {
+               $scope.items.push(dadosIniciais[i]);
+             }
+           }
+           
+           var quant_destroy = $scope.items.length - args.response.results.length;
+ 
+           //popula os itens encontrados
+           for (var i = 0; i <= args.response.results.length -1; i++) {
+               $scope.items[i].description = args.response.results[i].item.description;
+               $scope.items[i].id = args.response.results[i].item.id;
+               $scope.items[i].image = args.response.results[i].item.image;
+               $scope.items[i].resume = args.response.results[i].item.resume;
+               $scope.items[i].title = args.response.results[i].item.title;
+           }
+ 
+           //destroi os itens desnecessarios
+           while(quant_destroy > 0) {
+             $scope.items.splice(-1,1)  
+             quant_destroy--;
+           }
+ 
+         });
+
         // If the view is showing the detail, call showDetail
         if ($scope.isDetail) {
           list.showDetail();
@@ -72,6 +114,12 @@ module.exports = {
 
         // Remove the loading animation
         $scope.moblet.isLoading = false;
+
+        $scope.$on("check-update-data", function(event, args) { 
+             if ($scope.items.length < dadosIniciais.length) {
+               $scope.items = JSON.parse(origData);
+             }
+         });
       },
       /**
        * Check if the view is showing a detail or the list. The function checks
@@ -176,6 +224,16 @@ module.exports = {
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
             list.setView(data);
+
+            $rootScope.$broadcast('hide-search-refresh');
+
+             dadosIniciais = JSON.stringify(data.items);
+             dadosIniciais = JSON.parse(dadosIniciais);
+ 
+             console.log(dadosIniciais, "dadosIniciais");
+ 
+ 
+
             if (typeof callback === 'function') {
               callback();
             }

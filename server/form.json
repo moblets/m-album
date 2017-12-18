@@ -18,6 +18,10 @@
           "required": true
         },
         {
+          "name": "search",
+          "type": "toggle"
+         },
+        {
           "name": "description",
           "type": "text-area"
         }
