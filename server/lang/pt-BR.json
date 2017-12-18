@@ -14,6 +14,9 @@
     "hint": "Título da imagem",
     "placeholder": "Imagem"
   },
+  "search": {
+    "label": "Ativar busca nesta aba"
+  },
   "description": {
     "label": "Descrição",
     "hint": "Preencha com a descricão da imagem",
