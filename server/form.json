@@ -18,14 +18,14 @@
           "required": true
         },
         {
-          "name": "search",
-          "type": "toggle"
-         },
-        {
           "name": "description",
           "type": "text-area"
         }
       ]
-    }
+    },
+    {
+      "name": "search",
+      "type": "toggle"
+     }
   ]
 }
