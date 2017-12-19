@@ -41,8 +41,10 @@ module.exports = {
           var origData = JSON.stringify(data.items);
 
           if (data.search === true) {
-             $rootScope.$broadcast('hideShowSearch' , {data});
+            $rootScope.$broadcast('hideShowSearch', {data});
           }
+
+          $scope.search = isDefined(data.search) ? data.search === true : false;
 
           $rootScope.$broadcast('show-search-portal');
           // If it was called from the "more" function, concatenate the items
