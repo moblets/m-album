@@ -20,6 +20,7 @@
   "description": {
     "label": "Descrição",
     "hint": "Preencha com a descricão da imagem",
-    "placeholder": "Descricão da imagem"
+    "placeholder": "Descricão da imagem",
+    "tutorial_link": "https://suporte.fabricadeaplicativos.com.br/hc/pt-br/articles/360024381471/"
   }
 }
