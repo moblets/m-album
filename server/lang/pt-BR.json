@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Álbum Pro 2.0",
     "hint": "Crie um álbum de fotos",
-    "description": "Preencha os campos abaixo para criar o seu álbum"
+    "description": "Preencha os campos abaixo para criar o seu álbum",
+    "tutorial_link": "https://suporte.fabricadeaplicativos.com.br/hc/pt-br/articles/360024381471/"
   },
   "items": {
     "label": "Álbum de fotos",
@@ -20,7 +21,6 @@
   "description": {
     "label": "Descrição",
     "hint": "Preencha com a descricão da imagem",
-    "placeholder": "Descricão da imagem",
-    "tutorial_link": "https://suporte.fabricadeaplicativos.com.br/hc/pt-br/articles/360024381471/"
+    "placeholder": "Descricão da imagem"
   }
 }
