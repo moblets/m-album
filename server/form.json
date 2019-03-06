@@ -9,8 +9,8 @@
           "name": "title",
           "type": "text",
           "required": true,
-          "min-length": 1,
-          "max-length": 30
+          "minlength": 1,
+          "maxlength": 30
         },
 				{
           "name": "image",
@@ -27,5 +27,6 @@
       "name": "search",
       "type": "toggle"
      }
-  ]
+  ],
+  "tutorial_link": "https://suporte.fabricadeaplicativos.com.br/hc/pt-br/articles/360024381471/"
 }
