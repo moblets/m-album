@@ -19,7 +19,7 @@
         },
         {
           "name": "description",
-          "type": "text-area"
+          "type": "textArea"
         }
       ]
     },
