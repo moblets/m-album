@@ -1,6 +1,6 @@
 {
   "moblet": {
-    "label": "Álbum Pro 2.0",
+    "label": "Album de Fotos",
     "hint": "Crear un álbum de fotos",
     "description": "Rellene los campos para crear un álbum de fotos"
   },
@@ -13,6 +13,9 @@
     "label": "Título",
     "hint": "Título de la imagem",
     "placeholder": "Imagen"
+  },
+  "image": {
+    "label": "Imagen"
   },
   "search": {
     "label": "Habilita la búsqueda en esta pestaña"

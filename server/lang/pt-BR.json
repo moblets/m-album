@@ -1,6 +1,6 @@
 {
   "moblet": {
-    "label": "Álbum Pro 2.0",
+    "label": "Álbum de Fotos",
     "hint": "Crie um álbum de fotos",
     "description": "Preencha os campos abaixo para criar o seu álbum",
     "tutorial_link": "https://suporte.fabricadeaplicativos.com.br/hc/pt-br/articles/360024381471/"
@@ -14,6 +14,9 @@
     "label": "Título",
     "hint": "Título da imagem",
     "placeholder": "Imagem"
+  },
+  "image": {
+    "label": "Imagem"
   },
   "search": {
     "label": "Ativar busca nesta aba"
