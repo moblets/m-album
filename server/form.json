@@ -7,15 +7,32 @@
       "fields": [
         {
           "name": "title",
-          "type": "text",
-          "required": true,
+          "type": "input",
+          "inputType": "text",
           "minlength": 1,
-          "maxlength": 30
+          "maxlength": 30,
+          "validations": [
+            {
+              "name": "required"
+            },
+            {
+              "name": "minLength",
+              "value": 1
+            },
+            {
+              "name": "maxLength",
+              "value": 30
+            }
+          ]
         },
-				{
+        {
           "name": "image",
           "type": "image",
-          "required": true
+          "validations": [
+            {
+              "name": "required"
+            }
+          ]
         },
         {
           "name": "description",
@@ -26,6 +43,6 @@
     {
       "name": "search",
       "type": "toggle"
-     }
+    }
   ]
 }
