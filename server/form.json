@@ -7,36 +7,19 @@
       "fields": [
         {
           "name": "title",
-          "type": "input",
-          "inputType": "text",
+          "type": "text",
+          "required": true,
           "minlength": 1,
-          "maxlength": 30,
-          "validations": [
-            {
-              "name": "required"
-            },
-            {
-              "name": "minLength",
-              "value": 1
-            },
-            {
-              "name": "maxLength",
-              "value": 30
-            }
-          ]
+          "maxlength": 30
         },
         {
           "name": "image",
           "type": "image",
-          "validations": [
-            {
-              "name": "required"
-            }
-          ]
+          "required": true
         },
         {
           "name": "description",
-          "type": "textarea"
+          "type": "textArea"
         }
       ]
     },
