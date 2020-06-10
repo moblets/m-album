@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Photo Album",
     "hint": "Create a photo album",
-    "description": "Fill the fields bellow to create your album"
+    "description": "Fill the fields bellow to create your album",
+    "version": 2
   },
   "items": {
     "label": "Photo album",

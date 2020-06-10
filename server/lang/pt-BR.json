@@ -3,7 +3,8 @@
     "label": "Álbum de Fotos",
     "hint": "Crie um álbum de fotos",
     "description": "Preencha os campos abaixo para criar o seu álbum",
-    "tutorial_link": "http://ajuda.fabapp.com/pt-BR/articles/3780075-album-de-fotos"
+    "tutorial_link": "http://ajuda.fabapp.com/pt-BR/articles/3780075-album-de-fotos",
+    "version": 2
   },
   "items": {
     "label": "Álbum de fotos",

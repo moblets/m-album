@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Album de Fotos",
     "hint": "Crear un álbum de fotos",
-    "description": "Rellene los campos para crear un álbum de fotos"
+    "description": "Rellene los campos para crear un álbum de fotos",
+    "version": 2
   },
   "items": {
     "label": "Álbum de fotos",
