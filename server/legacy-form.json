@@ -1,0 +1,34 @@
+{
+  "fields": [
+    {
+      "name": "items",
+      "type": "list",
+      "has-details": true,
+      "fields": [
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "minlength": 1,
+          "maxlength": 50
+        },
+        {
+          "name": "image",
+          "type": "image",
+          "required": true
+        },
+        {
+          "name": "description",
+          "type": "textArea",
+          "required": true,
+          "minlength": 3,
+          "maxlength": 12000
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "type": "toggle"
+    }
+  ]
+}
